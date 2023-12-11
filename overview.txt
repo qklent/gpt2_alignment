@@ -1,0 +1,6 @@
+loss: hinge loss - lambda log(p(y_sft|x))
+take promt, generate model(promt) for it, rank_model(model(promt)), sort it, {y_w, y_l : rank(y_w) > rank(y_l)}
+					
+	classification model on pairwise loss, use it like sliding window on our model(prompt) n times, take m pairs from it and after all this things we have dataset
+
+sft model - model that was finetuned on "good" dataset
