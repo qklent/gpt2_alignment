@@ -122,7 +122,7 @@ if __name__ == "__main__":
         training_args = TrainingArguments(
             output_dir='./results/hinge',
             num_train_epochs=1,
-            per_device_train_batch_size=16,
+            per_device_train_batch_size=4,
             save_steps=100,
             learning_rate=3e-4,
             eval_steps=100,
