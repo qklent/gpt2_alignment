@@ -13,7 +13,7 @@ from typing import Any, Callable, Dict, List, Literal, Optional, Tuple, Union
 
 def f_kl(chosen_log_probs, ref_chosen_log_probs, alpha=0.5):
     u = torch.exp(chosen_log_probs - ref_chosen_log_probs)
-    u = torch.clamp(u, min=1e-12) 
+    u = torch.clamp(u, min=1e-12)
     return (1 - u ** (-alpha)) / alpha
 
 class CustomDPOTrainer(DPOTrainer):
