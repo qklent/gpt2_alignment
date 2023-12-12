@@ -8,6 +8,12 @@ from trl import DPOTrainer
 import torch.nn.functional as F 
 from typing import Any, Callable, Dict, List, Literal, Optional, Tuple, Union
 from transformers import pipeline
+from custom_dpo_trainer import CustomDPOTrainer
+
+config = {
+    "loss_type": "custom",
+    "alpha": 0.5
+}
 
 def generate_texts(model, sequences_for_prompt, starting_phrases):
     generated_texts = []
@@ -72,8 +78,6 @@ def create_dataset(num_samples, generated_texts, rewards):
     return dataset
 
 if __name__ == "__main__":
-    TRAIN_HINGE = True
-    TRAIN_SIGMOID = True
     starting_phrases = [
         "This movie is",
         "The acting was",
@@ -109,25 +113,45 @@ if __name__ == "__main__":
 
     rewards = score_texts(reward_model, generated_texts)
 
-    if TRAIN_HINGE or TRAIN_SIGMOID:
-        num_samples = 10 # in paper they have 64k examples
-        train_dataset = create_dataset(num_samples, generated_texts, rewards)
 
-        val_texts = generate_texts(model, int(sequences_for_prompt * 0.2), starting_phrases)
-        val_rewards = score_texts(reward_model, val_texts)
-        val_dataset = create_dataset(int(num_samples * 0.2), val_texts, val_rewards)
+    num_samples = 10 # in paper they have 64k examples
+    train_dataset = create_dataset(num_samples, generated_texts, rewards)
 
-    if TRAIN_HINGE:
-        model_ref = GPT2LMHeadModel.from_pretrained(model_name)
-        training_args = TrainingArguments(
-            output_dir='./results/hinge',
-            num_train_epochs=1,
-            per_device_train_batch_size=4,
-            save_steps=100,
-            learning_rate=3e-4,
-            eval_steps=100,
-            save_strategy="steps",
+    val_texts = generate_texts(model, int(sequences_for_prompt * 0.2), starting_phrases)
+    val_rewards = score_texts(reward_model, val_texts)
+    val_dataset = create_dataset(int(num_samples * 0.2), val_texts, val_rewards)
+
+    model_ref = GPT2LMHeadModel.from_pretrained(model_name)
+
+    training_args = TrainingArguments(
+        output_dir='./results/' + config["loss_type"],
+        num_train_epochs=1,
+        per_device_train_batch_size=4,
+        save_steps=100,
+        learning_rate=3e-4,
+        eval_steps=100,
+        save_strategy="steps",
+    )
+
+    loss_type = config["loss_type"]
+
+    if loss_type == "custom":
+        dpo_trainer = CustomDPOTrainer(
+            model,
+            model_ref,
+            beta=0.1,
+            args=training_args,
+            train_dataset=train_dataset,
+            eval_dataset=val_dataset,
+            tokenizer=tokenizer,
+            loss_type="sigmoid",
+            max_length=max_length,
+            max_prompt_length=max(list(map(lambda x: len(x), starting_phrases))),
         )
+    else:
+        if loss_type not in ("sigmoid", "hinge"):
+            raise NotImplementedError()
+        
         dpo_trainer = DPOTrainer(
             model,
             model_ref,
@@ -139,6 +163,6 @@ if __name__ == "__main__":
             loss_type="hinge",
             max_length=max_length,
             max_prompt_length=max(list(map(lambda x: len(x), starting_phrases))),
-            #reference_free = True?
         )
-        dpo_trainer.train()
+
+    dpo_trainer.train()

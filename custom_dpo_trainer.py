@@ -13,14 +13,15 @@ from typing import Any, Callable, Dict, List, Literal, Optional, Tuple, Union
 
 def f_kl(chosen_log_probs, ref_chosen_log_probs, alpha=0.5):
     u = torch.exp(chosen_log_probs - ref_chosen_log_probs)
+    u = torch.clamp(u, min=1e-12) 
     return (1 - u ** (-alpha)) / alpha
 
 class CustomDPOTrainer(DPOTrainer):
     def __init__(self, *args, **kwargs):
-        super(DPOTrainer, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.beta = 0.1
         self.f_kl_alpha = 0.5
-        self.label_smoothing=0
+        self.label_smoothing=0.2
     def dpo_loss(
         self,
         policy_chosen_logps: torch.FloatTensor,
@@ -38,8 +39,8 @@ class CustomDPOTrainer(DPOTrainer):
         # everything else stays the same:
         if self.loss_type == "sigmoid":
             losses = (
-                -F.logsigmoid(self.beta * logits) * (1 - self.label_smoothing)
-                - F.logsigmoid(-self.beta * logits) * self.label_smoothing
+                -torch.log(F.sigmoid(self.beta * logits)) * (1 - self.label_smoothing)
+                -torch.log(F.sigmoid(-self.beta * logits)) * self.label_smoothing
             )
         elif self.loss_type == "hinge":
             losses = torch.relu(1 - self.beta * logits)
