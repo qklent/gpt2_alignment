@@ -21,4 +21,9 @@ alpha mean reward         diversity
 
 0.3   0.9781907795667648  5.767118752949075 
 
+![image](https://github.com/qklent/gpt2_alignment/assets/108892460/30c7925d-e587-4d9c-aab3-4ca2dab5eac0)
+
+
 С увеличением alpha увеличивается ревард и уменьшается diversity (как и в статье)
+
+
