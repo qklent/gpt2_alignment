@@ -3,14 +3,11 @@
 
 Решение уровня 1 можно посмотреть в ноутбуке level1.ipynb
 
-Решение уровня 2 можно посмотреть в ноутбуке level2_commited.ipynb,закомиченный ноутбук на кагле https://www.kaggle.com/code/qklent/gpt2-alignment/ (должна быть 9 версия из 9). 
+разница в diversity и средним ревардом между моделями, обученными на сигмоид и hinge лоссы не видна(она есть но скорее всего рандомная). 
+
+Решение уровня 2 можно посмотреть в ноутбуке level2_commited.ipynb,закомиченный ноутбук на кагле https://www.kaggle.com/code/qklent/gpt2-alignment/ (11, 10 и 9 версия отличаются только параметом alpha)
 
 Также можно посмотреть только на кастомный класс dpo trainer(а) в файле custom_dpo_trainer.py
-
-Ну а вообще результаты примерно такие: разница в diversity и средним ревардом между моделями, обученными на сигмоид и hinge лоссы не видна(она есть но скорее всего рандомная). 
-
-А в момент написания этого текста моделька из уровня 2 все еще обучается, поэтому пока ничего сказать не могу, но можно взять вывод из статьи Finally, we note that reverse KL achieves the lowest predictive entropy due to its mode-seeking property, while Forward KL exhibits the highest predictive entropy. JSD maintains a balance between the two. α-divergence interpolates between the JSD and forward KL divergence.
-upd досчитались модельки и метрики:
 
 
 | Alpha | Mean Reward | Diversity |
@@ -24,4 +21,5 @@ upd досчитались модельки и метрики:
 
 С увеличением alpha увеличивается ревард и уменьшается diversity (как и в статье)
 
-
+Ну и вывод из статьи:
+Finally, we note that reverse KL achieves the lowest predictive entropy due to its mode-seeking property, while Forward KL exhibits the highest predictive entropy. JSD maintains a balance between the two. α-divergence interpolates between the JSD and forward KL divergence.
