@@ -19,7 +19,7 @@
 ![image](https://github.com/qklent/gpt2_alignment/assets/108892460/30c7925d-e587-4d9c-aab3-4ca2dab5eac0)
 
 
-С увеличением alpha увеличивается ревард и уменьшается diversity (как и в статье)
+С увеличением alpha увеличивается ревард и уменьшается diversity (как и в статье). И по сравнению с моделями из уровня 1, у текущей ревард меньше, но зато diversity выше.
 
-Ну и вывод из статьи:
+Осталось обучить на другие лосс функции, и прийти к выводу из статьи:
 Finally, we note that reverse KL achieves the lowest predictive entropy due to its mode-seeking property, while Forward KL exhibits the highest predictive entropy. JSD maintains a balance between the two. α-divergence interpolates between the JSD and forward KL divergence.
