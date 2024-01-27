@@ -1,5 +1,5 @@
 # gpt2_alignment
-Все ноубуки точно запускаются на кагле. В других местах пока не проверял. Скрипты обучения пока не готовы, поэтому пока что возможность запустить обучение есть только в ноутбуках
+Этот репозиторий воспроизводит статью \href{BEYOND REVERSE KL: GENERALIZING DIRECT PREFERENCE OPTIMIZATION WITH DIVERSE DIVER-GENCE CONSTRAINTS}{https://arxiv.org/pdf/2309.16240.pdf}
 
 Решение уровня 1 можно посмотреть в ноутбуке level1.ipynb
 
