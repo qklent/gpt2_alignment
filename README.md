@@ -1,11 +1,9 @@
 # gpt2_alignment
 Этот репозиторий воспроизводит статью [BEYOND REVERSE KL: GENERALIZING DIRECT PREFERENCE OPTIMIZATION WITH DIVERSE DIVER-GENCE CONSTRAINTS](https://arxiv.org/pdf/2309.16240.pdf)
 
-Решение уровня 1 можно посмотреть в ноутбуке level1.ipynb
+В ноутбуке level1.ipynb можно посмотреть alignment gpt2 модели на hinge loss и sigmoid loss с использованием dpo. Разница в diversity и средним ревардом между моделями, обученными на сигмоид и hinge лоссы не видна(она есть но скорее всего рандомная). 
 
-разница в diversity и средним ревардом между моделями, обученными на сигмоид и hinge лоссы не видна(она есть но скорее всего рандомная). 
-
-Решение уровня 2 можно посмотреть в ноутбуке level2_commited.ipynb,закомиченный ноутбук на кагле https://www.kaggle.com/code/qklent/gpt2-alignment/ (11, 10 и 9 версия отличаются только параметом alpha)
+В ноутбуке level2_commited.ipynb реализовывался кастомный dpotrainer, в котором использовалась альфа дивергенция из статьи. Закомиченный ноутбук на кагле https://www.kaggle.com/code/qklent/gpt2-alignment/ (11, 10 и 9 версия отличаются только параметом alpha)
 
 Также можно посмотреть только на кастомный класс dpo trainer(а) в файле custom_dpo_trainer.py
 
