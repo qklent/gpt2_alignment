@@ -1,5 +1,6 @@
 # gpt2_alignment
 Этот репозиторий воспроизводит статью \href{https://arxiv.org/pdf/2309.16240.pdf}{BEYOND REVERSE KL: GENERALIZING DIRECT PREFERENCE OPTIMIZATION WITH DIVERSE DIVER-GENCE CONSTRAINTS}
+\href{https://www.faangpath.com/blog/}{blog posts}
 
 Решение уровня 1 можно посмотреть в ноутбуке level1.ipynb
 
